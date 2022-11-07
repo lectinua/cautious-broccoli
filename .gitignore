@@ -1,0 +1,4 @@
+.idea/
+cautious/node_modules
+cautious/.env*
+cautious/pnpm-debug.log*
