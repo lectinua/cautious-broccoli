@@ -1,10 +1,9 @@
 /// <reference types="redux-persist" />
-import { createSlice, configureStore, getDefaultMiddleware, combineReducers } from '@reduxjs/toolkit'
-import { User } from '@/apis/user'
-import storage from 'redux-persist/lib/storage'
+import { combineReducers, configureStore, createSlice, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { persistReducer, persistStore } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
-const userSlice = createSlice({
+export const userSlice = createSlice({
   name: 'user',
   initialState: {
     value: null
@@ -44,10 +43,10 @@ const store = configureStore({
 export const persistor = persistStore(store)
 
 const userStore = {
-  set: (value: User) => store.dispatch(userSlice.actions.set(value)),
-  get: (): User | null => store.getState().user.value,
+  set: (value: unknown) => store.dispatch(userSlice.actions.set(value)),
+  get: (): unknown | null => store.getState().user.value,
   reset: () => store.dispatch(userSlice.actions.set(null)),
-  trySign: (flag: boolean) => store.dispatch(signSlice.actions.set(flag)),
+  trySign: () => store.dispatch(signSlice.actions.set(true)),
   isSignTried: (): boolean => {
     const state = store.getState().sign.value
     store.dispatch(signSlice.actions.set(false))
