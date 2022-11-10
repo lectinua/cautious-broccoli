@@ -47,10 +47,15 @@ export default function Footer() {
 
   const handleClick = () => toggleColorMode()
   const handleSignIn = () => {
-    userStore.trySign()
-    supabase.auth.signInWithOAuth({
-      provider: 'google'
-    })
+    if ( !signed ) {
+      userStore.trySign()
+      supabase.auth.signInWithOAuth({
+        provider: 'google'
+      })
+    }
+    else {
+      supabase.auth.signOut()
+    }
   }
 
   const toast = useToast()
