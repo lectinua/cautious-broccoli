@@ -1,6 +1,7 @@
 import './index.css'
 
 import { Box, Button, Container, Heading, Stack, Text, } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 
 export default function Error() {
   return (
@@ -24,15 +25,14 @@ export default function Error() {
                  align={'center'}
                  alignSelf={'center'}
                  position={'relative'}>
-            <Button colorScheme={'green'}
-                    bg={'gray.400'}
-                    rounded={'full'}
-                    px={6}
-                    _hover={{ bg: 'gray.500' }}
-                    as={'a'}
-                    href={'/'}>
-              확인
-            </Button>
+            <Link to={'/'}>
+              <Button bg={'gray.400'}
+                      rounded={'full'}
+                      px={6}
+                      _hover={{ bg: 'gray.500' }}>
+                확인
+              </Button>
+            </Link>
           </Stack>
         </Stack>
       </Container>
