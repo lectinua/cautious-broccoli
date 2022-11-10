@@ -25,7 +25,7 @@ import { Link } from 'react-router-dom'
 export default function Sidebar({ children, logo }: { children: ReactNode, logo: string }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
-    <Box minH="calc(100vh - 64px)" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Box minH="calc(100vh - 65px)" bg={useColorModeValue('gray.100', 'gray.800')}>
       <Drawer autoFocus={false}
               isOpen={isOpen}
               placement="left"
@@ -54,7 +54,7 @@ interface SidebarProps extends BoxProps {
 const SidebarContent = ({ onClose, logo, ...rest }: SidebarProps) => {
   const menus: Menu[] = useSelector((state: RootState) => state.menu.value)
   return (
-    <Box bg={useColorModeValue('white', 'gray.900')}
+    <Box bg={useColorModeValue('gray.50', 'gray.800')}
          borderRight="1px"
          borderRightColor={useColorModeValue('gray.200', 'gray.700')}
          w="full"
@@ -124,7 +124,7 @@ const MobileNav = ({ onOpen, logo, ...rest }: MobileProps) => {
     <Flex px={{ base: 4, md: 4 }}
           height="20"
           alignItems="center"
-          bg={useColorModeValue('white', 'gray.900')}
+          bg={useColorModeValue('gray.50', 'gray.800')}
           borderBottomWidth="1px"
           borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
           justifyContent="flex-start"
