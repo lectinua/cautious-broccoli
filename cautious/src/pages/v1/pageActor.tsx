@@ -154,28 +154,19 @@ export default function PageActor() {
 
           <ModalFooter display={'flex'}
                        justifyContent={'space-between'}>
-            <Box>
-              {
-                modifyMode ?
-                  <Button colorScheme="red"
-                          mr={3}
-                          onClick={handleDelete}>
-                    삭제
-                  </Button>
-                  : ''
-              }
-            </Box>
-            <Box>
-              <Button colorScheme="orange"
-                      mr={3}
-                      onClick={onClose}>
-                취소
-              </Button>
-              <Button colorScheme="green"
-                      onClick={handleSave}>
-                {modifyMode ? '수정' : '등록'}
-              </Button>
-            </Box>
+            {
+              modifyMode ?
+                <Button colorScheme="red"
+                        mr={3}
+                        onClick={handleDelete}>
+                  삭제
+                </Button>
+                : <Box/>
+            }
+            <Button colorScheme="green"
+                    onClick={handleSave}>
+              {modifyMode ? '수정' : '등록'}
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
