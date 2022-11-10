@@ -10,7 +10,6 @@ import {
   FlexProps,
   Icon,
   IconButton,
-  Link,
   Text,
   useColorModeValue,
   useDisclosure,
@@ -21,19 +20,20 @@ import { IconType } from 'react-icons'
 import { Menu } from '@/apis/menu'
 import { RootState } from '@/store'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 export default function Sidebar({ children, logo }: { children: ReactNode, logo: string }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <Box minH="calc(100vh - 64px)" bg={useColorModeValue('gray.100', 'gray.900')}>
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full">
+      <Drawer autoFocus={false}
+              isOpen={isOpen}
+              placement="left"
+              onClose={onClose}
+              returnFocusOnClose={false}
+              onOverlayClick={onClose}
+              size={{ base: 'full', md: 'xs' }}
+      >
         <DrawerContent>
           <SidebarContent logo={logo} onClose={onClose}/>
         </DrawerContent>
@@ -67,11 +67,11 @@ const SidebarContent = ({ onClose, logo, ...rest }: SidebarProps) => {
         </Text>
         <CloseButton onClick={onClose}/>
       </Flex>
-      <NavItem key={0} icon={FaHome} href={'#'}>
+      <NavItem key={0} icon={FaHome} href={'/'}>
         {'Home'}
       </NavItem>
       {menus.map((menu) => (
-        <NavItem key={menu.info.id} icon={FaChevronRight} href={'#'}>
+        <NavItem key={menu.info.id} icon={FaChevronRight} href={menu.info.url}>
           {menu.info.name}
         </NavItem>
       ))}
@@ -87,7 +87,7 @@ interface NavItemProps extends FlexProps {
 
 const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
   return (
-    <Link href={href} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Link to={href} style={{ textDecoration: 'none' }} >
       <Flex align="center"
             p="4"
             mx="4"

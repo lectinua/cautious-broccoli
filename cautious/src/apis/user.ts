@@ -1,7 +1,7 @@
 import { userActions, UserWithRole } from '@/store/user'
 import { User } from '@supabase/supabase-js'
 import { supabase } from '@/apis/index'
-import { checkError } from '@/utils/db'
+import { checkError } from '@/utils/api'
 import { selectMenus } from '@/apis/menu'
 import { menuActions } from '@/store/menu'
 import { Dispatch } from 'redux'
