@@ -1,4 +1,4 @@
-export default function Dialog() {
+export default function PageDialog() {
   return (
     <>
       Dialog

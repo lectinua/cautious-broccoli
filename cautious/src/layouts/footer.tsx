@@ -20,6 +20,7 @@ import { menuActions } from '@/store/menu'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import { signActions } from '@/store/sign'
+import { useNavigate } from 'react-router-dom'
 
 const FooterButton = ({ children, label, onClick }: {
   children: ReactNode
@@ -51,11 +52,11 @@ export default function Footer() {
   const dispatch = useDispatch()
   const toast = useToast()
   const { colorMode, toggleColorMode } = useColorMode()
+  const navigate = useNavigate()
 
   const user = useSelector((state: RootState) => state.user.value)
   const sign = useSelector((state: RootState) => state.sign.value)
 
-  const handleClick = () => toggleColorMode()
   const handleSignIn = () => {
     dispatch(signActions.set(true))
     supabase.auth.signInWithOAuth({
@@ -66,6 +67,8 @@ export default function Footer() {
     dispatch(userActions.set(null))
     dispatch(menuActions.set([]))
     supabase.auth.signOut()
+
+    navigate('/')
 
     toast({
       title: '로그아웃 성공',
@@ -109,7 +112,7 @@ export default function Footer() {
                  align={{ base: 'center', md: 'center' }}>
         <Text></Text>
         <Stack direction={'row'} spacing={2}>
-          <FooterButton label={'dark mode'} onClick={handleClick}>
+          <FooterButton label={'dark mode'} onClick={toggleColorMode}>
             {colorMode === 'light'
               ? <MoonIcon/>
               : <SunIcon/>

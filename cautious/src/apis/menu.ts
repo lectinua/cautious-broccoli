@@ -4,7 +4,6 @@ import { checkError } from '@/utils/api'
 
 export interface Menu {
   create: boolean
-  read: boolean
   update: boolean
   delete: boolean
   info: {
@@ -22,10 +21,11 @@ export const selectMenus = async (user: UserWithRole | null): Promise<Menu[]> =>
     await supabase
       .from('menu_role')
       .select(`
-        create, read, update, delete,
+        create, update, delete,
         info:menu(id, name, order, url)
       `)
       .eq('role_id', user.role_id)
+      .eq('read', true)
   ) as Menu[]
 
   return menus.sort((x, y) => x.info.order - y.info.order)

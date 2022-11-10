@@ -1,4 +1,4 @@
-export default function Quest() {
+export default function PageQuest() {
   return (
     <>
       Quest

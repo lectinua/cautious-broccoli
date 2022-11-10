@@ -1,4 +1,4 @@
-export default function Map() {
+export default function PageMap() {
   return (
     <>
       Map

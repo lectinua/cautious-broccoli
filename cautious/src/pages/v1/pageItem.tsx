@@ -1,4 +1,4 @@
-export default function Item() {
+export default function PageItem() {
   return (
     <>
       Item

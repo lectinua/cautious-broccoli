@@ -1,11 +1,12 @@
-import { Box } from '@chakra-ui/react'
-import { Outlet, useNavigation } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 export default function Content() {
-  const navigation = useNavigation()
+  // const location = useLocation()
+  // const menus = useSelector((state: RootState) => state.menu.value)
+  // const current = menus.find(menu => menu.info.url === location.pathname)
   return (
-    <Box filter={'auto'} blur={navigation.state === 'loading' ? '2px' : ''}>
+    <>
       <Outlet/>
-    </Box>
+    </>
   )
 }

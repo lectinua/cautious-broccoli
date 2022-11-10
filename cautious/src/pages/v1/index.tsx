@@ -1,36 +1,35 @@
 import { Route } from 'react-router-dom'
-import React from 'react'
-import Notice from '@/pages/v1/notice'
-import Item from '@/pages/v1/item'
-import Quest from '@/pages/v1/quest'
-import Dialog from '@/pages/v1/dialog'
-import Map from '@/pages/v1/map'
-import Actor from '@/pages/v1/actor'
+import PageNotice from '@/pages/v1/pageNotice'
+import PageItem from '@/pages/v1/pageItem'
+import PageQuest from '@/pages/v1/pageQuest'
+import PageDialog from '@/pages/v1/pageDialog'
+import PageMap from '@/pages/v1/pageMap'
 import Content from '@/components/content'
-import Home from '@/pages/v1/home'
+import PageHome from '@/pages/v1/pageHome'
+import PageActor from '@/pages/v1/pageActor'
 
 export default (
   <Route element={<Content/>}>
     <Route path={'/'}
-           element={<Home/>}
+           element={<PageHome/>}
     />
     <Route path={'/notice'}
-           element={<Notice/>}
+           element={<PageNotice/>}
     />
     <Route path={'/actor'}
-           element={<Actor/>}
+           element={<PageActor/>}
     />
     <Route path={'/map'}
-           element={<Map/>}
+           element={<PageMap/>}
     />
     <Route path={'/dialog'}
-           element={<Dialog/>}
+           element={<PageDialog/>}
     />
     <Route path={'/quest'}
-           element={<Quest/>}
+           element={<PageQuest/>}
     />
     <Route path={'/item'}
-           element={<Item/>}
+           element={<PageItem/>}
     />
   </Route>
 )
