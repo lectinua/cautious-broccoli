@@ -10,3 +10,7 @@ export const getIpAddress = async (): Promise<string> => {
   const { data: { IPv4 } } = await axios.get('https://geolocation-db.com/json/')
   return IPv4
 }
+
+export const deepCopy = <T>(obj: Object) => {
+  return JSON.parse(JSON.stringify(obj)) as T
+}

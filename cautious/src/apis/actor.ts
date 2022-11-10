@@ -1,25 +1,42 @@
-import { UserWithRole } from '@/store/user'
 import { checkError } from '@/utils/api'
 import { supabase } from '@/apis/index'
 
 export interface Actor {
+  id?: number
   name: string
   description: string
+  created_at?: Date
+  updated_at?: Date
 }
 
-// TODO
-export const selectActors = async (user: UserWithRole | null): Promise<Actor[]> => {
-  if ( user === null ) return []
-
-  const actors = checkError(
+export const selectActors = async (): Promise<Actor[]> => {
+  return  checkError(
     await supabase
-      .from('menu_role')
-      .select(`
-        create, read, update, delete,
-        info:menu(id, name, order, url)
-      `)
-      .eq('role_id', user.role_id)
+      .from('actor')
+      .select('id, name, description, created_at, updated_at')
+  ) as Actor[]
+}
+
+export const saveActor = async (actor: Actor): Promise<Actor> => {
+  delete actor.created_at
+
+  const result = checkError(
+    await supabase
+      .from('actor')
+      .upsert(actor)
+      .select()
   ) as Actor[]
 
-  return []
+  return result.length
+    ? result[0]
+    : actor
+}
+
+export const deleteActor = async (id: number) => {
+  checkError(
+    await supabase
+      .from('actor')
+      .delete()
+      .eq('id', id)
+  )
 }

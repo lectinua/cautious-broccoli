@@ -8,7 +8,7 @@ export default function ProfileCard({ actor, handleClick }: { actor: Actor, hand
   const navigation = useNavigation()
   return (
     <Box w={'full'}
-         bg={useColorModeValue('gray.100', 'gray.800')}
+         bg={useColorModeValue('gray.50', 'gray.800')}
          borderColor={useColorModeValue('gray.200', 'gray.700')}
          borderWidth={'1px'}
          boxShadow={'2xl'}
@@ -19,10 +19,12 @@ export default function ProfileCard({ actor, handleClick }: { actor: Actor, hand
           <Skeleton isLoaded={navigation.state !== 'loading'}>
             <Heading fontSize={'xl'}
                      fontWeight={500}
+                     textAlign={'center'}
                      mb={2}>
               {actor.name}
             </Heading>
-            <Text color={'gray.500'}>
+            <Text color={'gray.500'}
+                  textAlign={'center'}>
               {actor.description}
             </Text>
           </Skeleton>
