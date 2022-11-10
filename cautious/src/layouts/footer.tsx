@@ -9,11 +9,17 @@ import {
   useToast,
   VisuallyHidden
 } from '@chakra-ui/react'
-import { ReactEventHandler, ReactNode, useState } from 'react'
-import { SunIcon, MoonIcon } from '@chakra-ui/icons'
-import { FaUser, FaSignOutAlt } from 'react-icons/fa'
+import { ReactEventHandler, ReactNode, useEffect } from 'react'
+import { MoonIcon, SunIcon } from '@chakra-ui/icons'
+import { FaSignOutAlt, FaUser } from 'react-icons/fa'
 import { supabase } from '@/apis'
-import userStore from '@/store/user'
+import { userActions } from '@/store/user'
+import { IconContext } from 'react-icons'
+import { signIn } from '@/apis/user'
+import { menuActions } from '@/store/menu'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@/store'
+import { signActions } from '@/store/sign'
 
 const FooterButton = ({ children, label, onClick }: {
   children: ReactNode
@@ -42,46 +48,51 @@ const FooterButton = ({ children, label, onClick }: {
 }
 
 export default function Footer() {
+  const dispatch = useDispatch()
+  const toast = useToast()
   const { colorMode, toggleColorMode } = useColorMode()
-  const [signed, setSigned] = useState(false)
+
+  const user = useSelector((state: RootState) => state.user.value)
+  const sign = useSelector((state: RootState) => state.sign.value)
 
   const handleClick = () => toggleColorMode()
   const handleSignIn = () => {
-    if ( !signed ) {
-      userStore.trySign()
-      supabase.auth.signInWithOAuth({
-        provider: 'google'
-      })
-    }
-    else {
-      supabase.auth.signOut()
-    }
+    dispatch(signActions.set(true))
+    supabase.auth.signInWithOAuth({
+      provider: 'google'
+    })
   }
+  const handleSignOut = () => {
+    dispatch(userActions.set(null))
+    dispatch(menuActions.set([]))
+    supabase.auth.signOut()
 
-  const toast = useToast()
-
-  if ( userStore.isSignTried() ) {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if ( user !== null ) {
-        setSigned(true)
-        userStore.set(user)
-        toast({
-          title: '로그인 성공',
-          description: `환영합니다. ${user.email}.`,
-          status: 'success',
-          duration: 3500,
-          isClosable: true,
-        })
-      }
+    toast({
+      title: '로그아웃 성공',
+      description: `로그아웃되었습니다.`,
+      status: 'success',
+      duration: 3500,
+      isClosable: true,
     })
   }
 
-  if ( !signed ) {
-    const user = userStore.get()
-    if ( user !== null ) {
-      setSigned(true)
+  useEffect(() => {
+    if ( sign ) {
+      dispatch(signActions.set(false))
+      supabase.auth.getUser().then(({ data: { user } }) => {
+        if ( user !== null ) {
+          signIn(user, dispatch)
+          toast({
+            title: '로그인 성공',
+            description: `환영합니다. ${user.email}.`,
+            status: 'success',
+            duration: 3500,
+            isClosable: true,
+          })
+        }
+      })
     }
-  }
+  }, [])
 
   return (
     <Box
@@ -94,7 +105,7 @@ export default function Footer() {
                  spacing={4}
                  justify={'space-between'}
                  align={{ base: 'center', md: 'center' }}>
-        <Text>© 2022 Chakra Templates. All rights reserved</Text>
+        <Text></Text>
         <Stack direction={'row'} spacing={2}>
           <FooterButton label={'dark mode'} onClick={handleClick}>
             {colorMode === 'light'
@@ -102,12 +113,17 @@ export default function Footer() {
               : <SunIcon/>
             }
           </FooterButton>
-          <FooterButton label={'sign in'} onClick={handleSignIn}>
-            {signed
-              ? <FaSignOutAlt/>
-              : <FaUser/>
+          <IconContext.Provider value={{ className: 'icon-75' }}>
+            {user !== null ?
+              <FooterButton label={'sign out'} onClick={handleSignOut}>
+                <FaSignOutAlt/>
+              </FooterButton>
+              :
+              <FooterButton label={'sign in'} onClick={handleSignIn}>
+                <FaUser/>
+              </FooterButton>
             }
-          </FooterButton>
+          </IconContext.Provider>
         </Stack>
       </Container>
     </Box>

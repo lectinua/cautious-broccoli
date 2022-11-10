@@ -16,18 +16,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { HamburgerIcon, IconProps } from '@chakra-ui/icons'
-import { FaHome } from 'react-icons/fa'
+import { FaChevronRight, FaHome } from 'react-icons/fa'
 import { IconType } from 'react-icons'
-
-interface LinkItemProps {
-  name: string
-  icon: ComponentWithAs<'svg', IconProps> | IconType
-  href: string
-}
-
-const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FaHome, href: '#' },
-]
+import { Menu } from '@/apis/menu'
+import { RootState } from '@/store'
+import { useSelector } from 'react-redux'
 
 export default function Sidebar({ children, logo }: { children: ReactNode, logo: string }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -59,6 +52,7 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, logo, ...rest }: SidebarProps) => {
+  const menus: Menu[] = useSelector((state: RootState) => state.menu.value)
   return (
     <Box bg={useColorModeValue('white', 'gray.900')}
          borderRight="1px"
@@ -73,9 +67,12 @@ const SidebarContent = ({ onClose, logo, ...rest }: SidebarProps) => {
         </Text>
         <CloseButton onClick={onClose}/>
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} href={link.href}>
-          {link.name}
+      <NavItem key={0} icon={FaHome} href={'#'}>
+        {'Home'}
+      </NavItem>
+      {menus.map((menu) => (
+        <NavItem key={menu.info.id} icon={FaChevronRight} href={'#'}>
+          {menu.info.name}
         </NavItem>
       ))}
     </Box>
