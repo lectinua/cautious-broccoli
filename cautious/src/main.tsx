@@ -1,25 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Index from './pages'
 import { ChakraProvider } from '@chakra-ui/react'
 import theme from '@/theme'
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor, store } from '@/store'
 import { Provider } from 'react-redux'
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
-import Error from '@/pages/error'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import v1 from '@/pages/v1'
+import Index from '@/pages'
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path={'/'}
-           element={<Index/>}
-           errorElement={<Error/>}
-    >
-      {v1}
-    </Route>
-  )
-)
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Index/>,
+    children: v1
+  }
+])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ChakraProvider theme={theme}>

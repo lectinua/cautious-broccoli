@@ -1,4 +1,4 @@
-import ProfileCard from '@/components/actor/profile_card'
+import ProfileCard from '@/components/actor/profileCard'
 import {
   Box,
   Button,

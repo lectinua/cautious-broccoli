@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import {
   Box,
   BoxProps,
+  Button,
   CloseButton,
   ComponentWithAs,
   Drawer,
@@ -20,7 +21,7 @@ import { IconType } from 'react-icons'
 import { Menu } from '@/apis/menu'
 import { RootState } from '@/store'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function Sidebar({ children, logo }: { children: ReactNode, logo: string }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -67,11 +68,11 @@ const SidebarContent = ({ onClose, logo, ...rest }: SidebarProps) => {
         </Text>
         <CloseButton onClick={onClose}/>
       </Flex>
-      <NavItem key={0} icon={FaHome} href={'/'}>
+      <NavItem key={0} icon={FaHome} href={'/'} onClose={onClose}>
         {'Home'}
       </NavItem>
       {menus.map((menu) => (
-        <NavItem key={menu.info.id} icon={FaChevronRight} href={menu.info.url}>
+        <NavItem key={menu.info.id} icon={FaChevronRight} href={menu.info.url} onClose={onClose}>
           {menu.info.name}
         </NavItem>
       ))}
@@ -83,22 +84,30 @@ interface NavItemProps extends FlexProps {
   icon: ComponentWithAs<'svg', IconProps> | IconType
   children: string | number
   href: string
+  onClose: () => void
 }
 
-const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, children, href, onClose }: NavItemProps) => {
+  const navigate = useNavigate()
+  const handleClick = (href: string) => {
+    navigate(href)
+    onClose()
+  }
   return (
-    <Link to={href} style={{ textDecoration: 'none' }} >
-      <Flex align="center"
-            p="4"
-            mx="4"
-            borderRadius="lg"
-            role="group"
-            cursor="pointer"
-            _hover={{
-              bg: 'cyan.400',
-              color: 'white',
-            }}
-            {...rest}>
+    <Flex py={1}>
+      <Button onClick={() => handleClick(href)}
+              w={'full'}
+              mx={4}
+              justifyContent={'start'}
+              textAlign={'left'}
+              borderRadius="lg"
+              role="group"
+              cursor="pointer"
+              bg={'transparent'}
+              _hover={{
+                bg: 'cyan.400',
+                color: 'white',
+              }}>
         {icon && (
           <Icon mr="4"
                 fontSize="16"
@@ -109,8 +118,8 @@ const NavItem = ({ icon, children, href, ...rest }: NavItemProps) => {
           />
         )}
         {children}
-      </Flex>
-    </Link>
+      </Button>
+    </Flex>
   )
 }
 

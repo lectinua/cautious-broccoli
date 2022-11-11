@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { User } from '@supabase/supabase-js'
 
-export type UserWithRole = User & { role_id: number }
+export type UserWithRole = User & {
+  role_id: number
+  expires_at: number
+  refresh_token: string
+}
 
 const initialState = { value: null as UserWithRole | null }
 

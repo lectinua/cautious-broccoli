@@ -5,7 +5,11 @@ import { Link } from 'react-router-dom'
 import { WarningTwoIcon } from '@chakra-ui/icons'
 import AnimButton from '@/components/animButton'
 
-export default function Error() {
+interface ErrorProps {
+  text?: string
+}
+
+export default function Error(props: ErrorProps) {
   return (
     <Container maxW={'xl'}>
       <Stack as={Box}
@@ -15,7 +19,7 @@ export default function Error() {
         <Box textAlign="center" py={10} px={6}>
           <WarningTwoIcon boxSize={'50px'} color={'orange.300'}/>
           <Text color={'gray.500'} mt={4} mb={10}>
-            요청하신 페이지를 찾을 수 없습니다.
+            {props.text}
           </Text>
           <Link to={'/'}>
             <AnimButton>
@@ -26,4 +30,8 @@ export default function Error() {
       </Stack>
     </Container>
   )
+}
+
+Error.defaultProps = {
+  text: '요청하신 페이지를 찾을 수 없습니다.'
 }

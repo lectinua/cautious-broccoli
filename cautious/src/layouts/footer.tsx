@@ -82,9 +82,9 @@ export default function Footer() {
   useEffect(() => {
     if ( sign ) {
       dispatch(signActions.set(false))
-      supabase.auth.getUser().then(({ data: { user } }) => {
+
+      signIn(dispatch).then((user) => {
         if ( user !== null ) {
-          signIn(user, dispatch)
           toast({
             title: '로그인 성공',
             description: `환영합니다. ${user.email}.`,
