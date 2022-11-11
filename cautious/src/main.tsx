@@ -7,12 +7,14 @@ import { persistor, store } from '@/store'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import v1 from '@/pages/v1'
+import Error from '@/pages/error'
 import Index from '@/pages'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Index/>,
+    errorElement: <Error/>,
     children: v1
   }
 ])

@@ -25,15 +25,15 @@ export default function Index() {
     setExpired(is_expired)
   }, [user])
 
-  const goto401 = () => navigate('/error')
+  const gotoError = () => navigate('/error')
 
   if ( user !== null ) {
     const current = menus.find(menu => menu.info.url === location.pathname)
-    current !== undefined && !current.read && goto401()
+    current !== undefined && !current.read && gotoError()
   }
 
   useEffect(() => {
-    user === null && location.pathname !== '/' && goto401()
+    user === null && location.pathname !== '/' && gotoError()
   }, [location.pathname])
 
   return (
